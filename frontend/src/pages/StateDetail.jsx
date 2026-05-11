@@ -219,7 +219,7 @@ const StateDetail = () => {
       .catch(() => { });
 
     // Fetch reviews
-    axios.get(`import.meta.env.VITE_API_URL/api/reviews/${id}`)
+    axios.get(`${import.meta.env.VITE_API_URL}/api/reviews/${id}`)
       .then(res => setReviews(res.data))
       .catch(console.error)
       .finally(() => setLoading(false));
@@ -241,7 +241,7 @@ const StateDetail = () => {
 
     try {
       setReviewLoading(true);
-      const { data } = await axios.post('import.meta.env.VITE_API_URL/api/reviews', {
+      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/reviews`, {
         stateId: id,
         rating: reviewRating,
         comment: reviewText

@@ -27,7 +27,7 @@ const BookingModal = ({ pkg, onClose }) => {
         return;
       }
       const user = JSON.parse(userStr);
-      const res = await fetch('import.meta.env.VITE_API_URL/api/bookings', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/bookings`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${user.token}` },
         body: JSON.stringify({

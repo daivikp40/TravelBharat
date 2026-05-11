@@ -46,8 +46,8 @@ const BookingsTab = ({ user }) => {
     if (!user?.token) return;
     const headers = { Authorization: `Bearer ${user.token}` };
     Promise.all([
-      fetch('import.meta.env.VITE_API_URL/api/bookings/admin/all', { headers }).then(r => r.json()),
-      fetch('import.meta.env.VITE_API_URL/api/bookings/admin/stats', { headers }).then(r => r.json()),
+      fetch(`${import.meta.env.VITE_API_URL}/api/bookings/admin/all`, { headers }).then(r => r.json()),
+      fetch(`${import.meta.env.VITE_API_URL}/api/bookings/admin/stats`, { headers }).then(r => r.json()),
     ])
       .then(([bk, st]) => {
         setBookings(Array.isArray(bk) ? bk : []);

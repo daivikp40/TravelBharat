@@ -57,7 +57,7 @@ const PaymentModal = ({ hotel, nights, onClose }) => {
                   return;
                 }
                 const user = JSON.parse(userStr);
-                await fetch('import.meta.env.VITE_API_URL/api/bookings', {
+                await fetch(`${import.meta.env.VITE_API_URL}/api/bookings`, {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${user.token}` },
                   body: JSON.stringify({

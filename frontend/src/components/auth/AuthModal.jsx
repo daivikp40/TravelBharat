@@ -23,7 +23,7 @@ const AuthModal = () => {
         setLoading(true);
 
         const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
-        const url = `import.meta.env.VITE_API_URL${endpoint}`;
+        const url = `${import.meta.env.VITE_API_URL}${endpoint}`;
 
         try {
             const { data } = await axios.post(url, formData);

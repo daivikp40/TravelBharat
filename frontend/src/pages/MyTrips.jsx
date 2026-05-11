@@ -158,7 +158,7 @@ const MyTrips = () => {
 
     const fetchBookings = async () => {
       try {
-        const { data } = await axios.get('import.meta.env.VITE_API_URL/api/bookings/my', {
+        const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/bookings/my`, {
           headers: { Authorization: `Bearer ${user.token}` }
         });
         setBookings(data);
@@ -174,7 +174,7 @@ const MyTrips = () => {
 
   const handleCancel = async (id) => {
     try {
-      await axios.patch(`import.meta.env.VITE_API_URL/api/bookings/${id}/cancel`, {}, {
+      await axios.patch(`${import.meta.env.VITE_API_URL}/api/bookings/${id}/cancel`, {}, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setBookings(bs => bs.map(b => b._id === id ? { ...b, status: 'Cancelled' } : b));
