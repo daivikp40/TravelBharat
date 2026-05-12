@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Globe, Search, Heart, Menu, X, ChevronRight, Compass, Package, Hotel, Info, Shield, LogOut, LogIn, Briefcase } from 'lucide-react';
+import { Globe, Search, Heart, Menu, X, ChevronRight, Compass, Package, Hotel, Info, Shield, LogOut, LogIn, Briefcase, UserCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useApp } from '../../context/AppContext';
 
@@ -88,10 +88,13 @@ const Navbar = () => {
                 <Link to="/mytrips" className="text-xs font-bold text-gray-300 hover:text-white px-2 flex items-center gap-1.5">
                   <Briefcase size={13}/> My Trips
                 </Link>
-                <div className="flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-1.5 rounded-xl">
-                  <div className="w-5 h-5 rounded-full bg-indigo-500 flex items-center justify-center text-[10px] font-black">{user.name.charAt(0)}</div>
-                  <button onClick={logout} className="text-xs text-red-400 hover:text-red-300 font-bold ml-1">Logout</button>
-                </div>
+                <Link to="/profile" className="flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-1.5 rounded-xl hover:border-indigo-500/30 hover:bg-white/8 transition-all group">
+                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-[10px] font-black text-white">{user.name.charAt(0)}</div>
+                  <span className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors max-w-[80px] truncate">{user.name.split(' ')[0]}</span>
+                </Link>
+                <button onClick={logout} className="text-xs text-red-400 hover:text-red-300 font-bold p-1.5 rounded-lg hover:bg-red-500/10 transition-all" title="Sign Out">
+                  <LogOut size={14}/>
+                </button>
               </div>
             ) : (
               <button onClick={() => setAuthModalOpen(true)} className="hidden md:flex items-center gap-2 px-4 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition-all ml-1">
@@ -149,10 +152,10 @@ const Navbar = () => {
               )}
 
               <div className="flex-1 overflow-y-auto py-4 px-4 space-y-1">
-                {[...NAV_LINKS, { label:'My Trips', to:'/mytrips', icon: Briefcase }, { label:'Admin', to:'/admin', icon: Shield }].map(({ label, to, icon: Icon }) => {
+                {[...NAV_LINKS, { label:'My Trips', to:'/mytrips', icon: Briefcase }, { label:'My Profile', to:'/profile', icon: UserCircle }, { label:'Admin', to:'/admin', icon: Shield }].map(({ label, to, icon: Icon }) => {
                   const active = location.pathname === to;
-                  // Hide My Trips if not logged in
-                  if (label === 'My Trips' && !user) return null;
+                  // Hide My Trips and My Profile if not logged in
+                  if ((label === 'My Trips' || label === 'My Profile') && !user) return null;
                   return (
                     <Link key={to} to={to}
                       className={`flex items-center justify-between px-4 py-3 rounded-2xl font-bold text-sm transition-all ${active ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}>

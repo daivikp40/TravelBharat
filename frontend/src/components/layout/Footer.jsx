@@ -44,8 +44,8 @@ const Footer = () => (
         <div>
           <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-4">Popular</h4>
           <ul className="space-y-2.5">
-            {['Rajasthan', 'Kerala', 'Goa', 'Himachal Pradesh', 'Kashmir'].map(s => (
-              <li key={s}><Link to={`/state/${s.toLowerCase().replace(/\s+/g, '-')}`} className="text-xs text-gray-500 hover:text-white transition-colors flex items-center gap-1.5"><MapPin size={10}/>{s}</Link></li>
+            {[['rajasthan', 'Rajasthan'], ['kerala', 'Kerala'], ['goa', 'Goa'], ['himachal-pradesh', 'Himachal Pradesh'], ['kashmir', 'Kashmir']].map(([id, name]) => (
+              <li key={id}><Link to={`/state/${id}`} className="text-xs text-gray-500 hover:text-white transition-colors flex items-center gap-1.5"><MapPin size={10}/>{name}</Link></li>
             ))}
           </ul>
         </div>

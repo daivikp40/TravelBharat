@@ -55,7 +55,10 @@ export const AppProvider = ({ children }) => {
         });
     };
 
-    const logout = () => setUser(null);
+    const logout = () => {
+        setUser(null);
+        localStorage.removeItem('tb_user');
+    };
 
     return (
         <AppContext.Provider value={{

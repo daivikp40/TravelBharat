@@ -17,8 +17,8 @@ const StateCard = ({ state, index }) => {
     const { toggleFavorite, isFavorite } = useApp();
     const fav = isFavorite(state._id);
     const regionClass = REGION_COLORS[state.region] || REGION_COLORS.default;
-    const rating = state.rating || (4.2 + Math.random() * 0.7).toFixed(1);
-    const visitors = state.visitors || `${(Math.random() * 5 + 1).toFixed(1)}M`;
+    const rating = state.rating || '4.5';
+    const visitors = state.visitors || '2M+';
     const bestSeason = state.bestSeason || 'Oct–Feb';
 
     return (
@@ -80,7 +80,7 @@ const StateCard = ({ state, index }) => {
                     <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-5 text-[10px] sm:text-xs text-gray-500">
                         <span className="flex items-center gap-1.5">
                             <MapPin size={11} className="text-indigo-400" />
-                            {state.placesCount || Math.floor(Math.random() * 20 + 10)} places
+                            {state.placesCount || '15+'} places
                         </span>
                         <span className="flex items-center gap-1.5">
                             <Users size={11} className="text-emerald-400" />

@@ -34,7 +34,7 @@ const BookingModal = ({ pkg, onClose }) => {
           itemType: 'Package',
           itemId: pkg._id || pkg.id,
           itemName: pkg.title,
-          guests: form.guests,
+          guests: parseInt(form.guests, 10),
           date: form.date,
           totalAmount: total,
           userName: form.name,
@@ -42,13 +42,17 @@ const BookingModal = ({ pkg, onClose }) => {
           userEmail: form.email
         })
       });
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.message || 'Booking failed');
+      }
       const data = await res.json();
       setBookingResult(data);
       setPaid(true);
       toast.success("Booking confirmed!");
     } catch (err) {
       console.error(err);
-      toast.error("Failed to book package. Please try again.");
+      toast.error(err.message || "Failed to book package. Please try again.");
     }
   };
 
@@ -139,7 +143,16 @@ const BookingModal = ({ pkg, onClose }) => {
                   <input type={t} placeholder={ph} value={form[k]} onChange={set(k)} className="input-field" required />
                 </div>
               ))}
-              <button onClick={() => setStep(2)} disabled={!form.name || !form.email || !form.phone || !form.date} className="btn-primary w-full justify-center disabled:opacity-40 disabled:cursor-not-allowed mt-2">
+              <button onClick={() => {
+                if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$/.test(form.email)) {
+                  toast.error('Please enter a valid email (e.g. name@example.com)'); return;
+                }
+                const cleanPh = form.phone.replace(/[\s-]/g, '');
+                if (!/^(\+91)?[6-9]\d{9}$/.test(cleanPh)) {
+                  toast.error('Please enter a valid 10-digit phone number (e.g. +91 98765 43210)'); return;
+                }
+                setStep(2);
+              }} disabled={!form.name || !form.email || !form.phone || !form.date} className="btn-primary w-full justify-center disabled:opacity-40 disabled:cursor-not-allowed mt-2">
                 Continue to Payment <ChevronRight size={16} />
               </button>
             </div>
@@ -221,12 +234,12 @@ const Packages = () => {
       {/* Support Banner */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
         {[
-          { icon: Phone, label: 'Helpline', value: '+91-1800-123-4567', sub: 'Mon–Sat 9AM–8PM', color: 'emerald' },
-          { icon: Mail, label: 'Email Us', value: 'packages@travelbharat.in', sub: 'Reply within 2 hours', color: 'indigo' },
-          { icon: Users, label: 'Group Bookings', value: '10+ people?', sub: 'Get special rates', color: 'amber' },
-        ].map(({ icon: Icon, label, value, sub, color }) => (
-          <div key={label} className={`glass-card p-5 flex items-center gap-4`}>
-            <div className={`p-3 rounded-2xl badge-${color} bg-opacity-20`}><Icon size={20} className={`text-${color}-400`} /></div>
+          { icon: Phone, label: 'Helpline', value: '+91-1800-123-4567', sub: 'Mon–Sat 9AM–8PM', bgClass: 'bg-emerald-500/10', borderClass: 'border-emerald-500/20', textClass: 'text-emerald-400' },
+          { icon: Mail, label: 'Email Us', value: 'packages@travelbharat.in', sub: 'Reply within 2 hours', bgClass: 'bg-indigo-500/10', borderClass: 'border-indigo-500/20', textClass: 'text-indigo-400' },
+          { icon: Users, label: 'Group Bookings', value: '10+ people?', sub: 'Get special rates', bgClass: 'bg-amber-500/10', borderClass: 'border-amber-500/20', textClass: 'text-amber-400' },
+        ].map(({ icon: Icon, label, value, sub, bgClass, borderClass, textClass }) => (
+          <div key={label} className="glass-card p-5 flex items-center gap-4">
+            <div className={`p-3 rounded-2xl ${bgClass} border ${borderClass}`}><Icon size={20} className={textClass} /></div>
             <div>
               <p className="text-xs text-gray-500 uppercase tracking-widest">{label}</p>
               <p className="font-bold text-white text-sm">{value}</p>

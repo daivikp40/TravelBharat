@@ -58,17 +58,31 @@ const LiveGallery = ({ photos }) => {
 };
 
 // Safety Panel
+const SAFETY_COLORS = {
+  'Very Safe': { border: 'border-emerald-500/30', bg: 'bg-emerald-500/5', text: 'text-emerald-400', barBg: 'bg-emerald-500' },
+  'Safe': { border: 'border-blue-500/30', bg: 'bg-blue-500/5', text: 'text-blue-400', barBg: 'bg-blue-500' },
+  'Caution': { border: 'border-amber-500/30', bg: 'bg-amber-500/5', text: 'text-amber-400', barBg: 'bg-amber-500' },
+  'default': { border: 'border-red-500/30', bg: 'bg-red-500/5', text: 'text-red-400', barBg: 'bg-red-500' },
+};
+
+const CONTACT_COLORS = {
+  red: { bg: 'bg-red-500/8', border: 'border-red-500/20', hoverBorder: 'hover:border-red-500/40', hoverBg: 'hover:bg-red-500/15', text: 'text-red-400' },
+  blue: { bg: 'bg-blue-500/8', border: 'border-blue-500/20', hoverBorder: 'hover:border-blue-500/40', hoverBg: 'hover:bg-blue-500/15', text: 'text-blue-400' },
+  emerald: { bg: 'bg-emerald-500/8', border: 'border-emerald-500/20', hoverBorder: 'hover:border-emerald-500/40', hoverBg: 'hover:bg-emerald-500/15', text: 'text-emerald-400' },
+  amber: { bg: 'bg-amber-500/8', border: 'border-amber-500/20', hoverBorder: 'hover:border-amber-500/40', hoverBg: 'hover:bg-amber-500/15', text: 'text-amber-400' },
+};
+
 const SafetyPanel = ({ extra, stateName }) => {
   if (!extra) return <div className="glass-card p-8 text-center text-gray-500 italic">Safety info not available for this state.</div>;
-  const levelColor = extra.safetyLevel === 'Very Safe' ? 'emerald' : extra.safetyLevel === 'Safe' ? 'blue' : extra.safetyLevel === 'Caution' ? 'amber' : 'red';
+  const sc = SAFETY_COLORS[extra.safetyLevel] || SAFETY_COLORS['default'];
   const LevelIcon = extra.safetyLevel === 'Very Safe' ? CheckCircle : extra.safetyLevel === 'Safe' ? CheckCircle : extra.safetyLevel === 'Caution' ? AlertTriangle : XCircle;
 
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
       {/* Safety Level */}
-      <div className={`glass-card p-7 border-${levelColor}-500/30 bg-${levelColor}-500/5`}>
+      <div className={`glass-card p-7 ${sc.border} ${sc.bg}`}>
         <div className="flex items-center gap-4 mb-5">
-          <LevelIcon size={36} className={`text-${levelColor}-400`} />
+          <LevelIcon size={36} className={sc.text} />
           <div>
             <h3 className="text-2xl font-black text-white">{extra.safetyLevel}</h3>
             <p className="text-gray-400 text-sm">for {stateName} travel</p>
@@ -81,7 +95,7 @@ const SafetyPanel = ({ extra, stateName }) => {
         {/* Score bar */}
         <div className="bg-white/5 rounded-full h-3 overflow-hidden mb-4">
           <motion.div initial={{ width: 0 }} animate={{ width: `${extra.safetyScore * 10}%` }} transition={{ duration: 1.2, delay: 0.3 }}
-            className={`h-full bg-${levelColor}-500 rounded-full`} />
+            className={`h-full ${sc.barBg} rounded-full`} />
         </div>
         <p className="text-sm text-gray-300 italic">{extra.safetyNotes}</p>
       </div>
@@ -95,16 +109,19 @@ const SafetyPanel = ({ extra, stateName }) => {
             { label: 'Police', number: extra.policeHelpline, color: 'blue', icon: '👮' },
             { label: 'Ambulance', number: extra.ambulance, color: 'emerald', icon: '🚑' },
             { label: 'Tourism Helpline', number: extra.tourismPhone, color: 'amber', icon: '🗺️' },
-          ].map(({ label, number, color, icon }) => (
-            <a key={label} href={`tel:${number}`}
-              className={`flex items-center gap-3 p-4 rounded-2xl bg-${color}-500/8 border border-${color}-500/20 hover:border-${color}-500/40 hover:bg-${color}-500/15 transition-all`}>
-              <span className="text-2xl">{icon}</span>
-              <div>
-                <p className="text-xs text-gray-500 uppercase tracking-widest">{label}</p>
-                <p className={`font-black text-${color}-400 text-lg`}>{number}</p>
-              </div>
-            </a>
-          ))}
+          ].map(({ label, number, color, icon }) => {
+            const cc = CONTACT_COLORS[color];
+            return (
+              <a key={label} href={`tel:${number}`}
+                className={`flex items-center gap-3 p-4 rounded-2xl ${cc.bg} border ${cc.border} ${cc.hoverBorder} ${cc.hoverBg} transition-all`}>
+                <span className="text-2xl">{icon}</span>
+                <div>
+                  <p className="text-xs text-gray-500 uppercase tracking-widest">{label}</p>
+                  <p className={`font-black ${cc.text} text-lg`}>{number}</p>
+                </div>
+              </a>
+            );
+          })}
         </div>
       </div>
 
@@ -224,7 +241,7 @@ const StateDetail = () => {
       .catch(console.error)
       .finally(() => setLoading(false));
 
-  }, [id]);
+  }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href).then(() => {

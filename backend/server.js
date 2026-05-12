@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const path = require('path');
 const connectDB = require('./config/db');
 
 // Load environment variables
@@ -15,14 +16,20 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 
 // Middleware
-app.use(helmet());
+app.use(helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+    contentSecurityPolicy: false,
+}));
 app.use(cors());
 app.use(express.json());
+
+// Serve static files (for local/uploaded images)
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Rate Limiting
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
+    max: 300, // limit each IP to 300 requests per windowMs
     message: 'Too many requests from this IP, please try again after 15 minutes'
 });
 app.use('/api', limiter);

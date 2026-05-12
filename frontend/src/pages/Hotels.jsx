@@ -50,6 +50,18 @@ const PaymentModal = ({ hotel, nights, onClose }) => {
           ) : (
             <form onSubmit={async e => {
               e.preventDefault();
+              if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$/.test(form.email)) {
+                toast.error('Please enter a valid email (e.g. name@example.com)'); return;
+              }
+              const emailTld = form.email.split('.').pop().toLowerCase();
+              const badTLDs = ['con', 'cmo', 'ocm', 'nrt', 'ogr', 'ner', 'coj', 'vom', 'xom', 'gml', 'cm'];
+              if (badTLDs.includes(emailTld)) {
+                toast.error(`Did you mean .com? ".${emailTld}" is not a valid domain`); return;
+              }
+              const cleanPh = form.phone.replace(/[\s-]/g, '');
+              if (!/^(\+91)?[6-9]\d{9}$/.test(cleanPh)) {
+                toast.error('Please enter a valid 10-digit phone number (e.g. +91 98765 43210)'); return;
+              }
               try {
                 const userStr = localStorage.getItem('tb_user');
                 if (!userStr) {
@@ -57,23 +69,30 @@ const PaymentModal = ({ hotel, nights, onClose }) => {
                   return;
                 }
                 const user = JSON.parse(userStr);
-                await fetch(`${import.meta.env.VITE_API_URL}/api/bookings`, {
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/api/bookings`, {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${user.token}` },
                   body: JSON.stringify({
                     itemType: 'Hotel',
                     itemId: hotel._id || hotel.id,
                     itemName: hotel.name,
-                    guests: 2, // Assuming standard 2 for simplicity
+                    guests: 2,
                     date: form.checkin,
-                    totalAmount: total
+                    totalAmount: total,
+                    userName: form.name,
+                    userPhone: form.phone,
+                    userEmail: form.email
                   })
                 });
+                if (!res.ok) {
+                  const errData = await res.json();
+                  throw new Error(errData.message || 'Booking failed');
+                }
                 setDone(true);
                 toast.success("Hotel booked successfully!");
               } catch (err) {
                 console.error(err);
-                toast.error("Failed to book hotel. Please try again.");
+                toast.error(err.message || "Failed to book hotel. Please try again.");
               }
             }} className="space-y-4">
               <div className="flex bg-white/5 border border-white/10 rounded-xl p-1 mb-4">
@@ -188,11 +207,11 @@ const Hotels = () => {
       {/* Contact */}
       <div className="flex flex-wrap gap-4 mb-10">
         {[
-          { icon: Phone, text: '+91-1800-HOTEL-TB (24/7)', color: 'emerald' },
-          { icon: Filter, text: `${filtered.length} properties available`, color: 'indigo' },
-        ].map(({ icon: Icon, text, color }) => (
-          <div key={text} className={`glass-card flex items-center gap-3 px-5 py-3`}>
-            <Icon size={16} className={`text-${color}-400`} /> <span className="text-sm text-gray-300">{text}</span>
+          { icon: Phone, text: '+91-1800-HOTEL-TB (24/7)', textClass: 'text-emerald-400' },
+          { icon: Filter, text: `${filtered.length} properties available`, textClass: 'text-indigo-400' },
+        ].map(({ icon: Icon, text, textClass }) => (
+          <div key={text} className="glass-card flex items-center gap-3 px-5 py-3">
+            <Icon size={16} className={textClass} /> <span className="text-sm text-gray-300">{text}</span>
           </div>
         ))}
       </div>

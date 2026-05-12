@@ -22,18 +22,30 @@ const STATUS_STYLE = {
   Cancelled: 'badge badge-red',
 };
 
-const StatCard = ({ label, value, icon: Icon, color, sub }) => (
-  <div className="glass-card p-6">
-    <div className="flex items-start justify-between mb-4">
-      <div className={`p-3 rounded-2xl bg-${color}-500/10 border border-${color}-500/20`}>
-        <Icon size={22} className={`text-${color}-400`} />
+const COLOR_MAP = {
+  indigo: { bg: 'bg-indigo-500/10', border: 'border-indigo-500/20', text: 'text-indigo-400' },
+  emerald: { bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', text: 'text-emerald-400' },
+  amber: { bg: 'bg-amber-500/10', border: 'border-amber-500/20', text: 'text-amber-400' },
+  red: { bg: 'bg-red-500/10', border: 'border-red-500/20', text: 'text-red-400' },
+  purple: { bg: 'bg-purple-500/10', border: 'border-purple-500/20', text: 'text-purple-400' },
+  blue: { bg: 'bg-blue-500/10', border: 'border-blue-500/20', text: 'text-blue-400' },
+};
+
+const StatCard = ({ label, value, icon: Icon, color, sub }) => {
+  const c = COLOR_MAP[color] || COLOR_MAP.indigo;
+  return (
+    <div className="glass-card p-6">
+      <div className="flex items-start justify-between mb-4">
+        <div className={`p-3 rounded-2xl ${c.bg} border ${c.border}`}>
+          <Icon size={22} className={c.text} />
+        </div>
+        <span className="text-xs text-gray-500">{sub}</span>
       </div>
-      <span className="text-xs text-gray-500">{sub}</span>
+      <p className={`text-4xl font-black ${c.text} mb-1`}>{value}</p>
+      <p className="text-xs text-gray-500 uppercase tracking-widest">{label}</p>
     </div>
-    <p className={`text-4xl font-black text-${color}-400 mb-1`}>{value}</p>
-    <p className="text-xs text-gray-500 uppercase tracking-widest">{label}</p>
-  </div>
-);
+  );
+};
 
 // ─── BOOKINGS TAB (fetches real data from API) ───
 const BookingsTab = ({ user }) => {

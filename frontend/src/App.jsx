@@ -12,6 +12,8 @@ import Packages from './pages/Packages';
 import Hotels from './pages/Hotels';
 import MyTrips from './pages/MyTrips';
 import Admin from './pages/Admin';
+import Profile from './pages/Profile';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -31,6 +33,8 @@ function App() {
               <Route path="/hotels" element={<Hotels />} />
               <Route path="/mytrips" element={<MyTrips />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
           <Footer />
