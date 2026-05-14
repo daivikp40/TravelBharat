@@ -38,7 +38,8 @@ You can access the live application here: [**TravelBharat Live**](https://travel
 ## 📸 Screenshots
 | Landing Page | State Details | Admin Dashboard |
 | :---: | :---: | :---: |
-| ![Home]("C:\Users\Dell\Pictures\Screenshots\Screenshot 2026-05-14 093846.png") | ![State]("C:\Users\Dell\Pictures\Screenshots\Screenshot 2026-05-14 093905.png") | ![Admin]("C:\Users\Dell\Pictures\Screenshots\Screenshot 2026-05-14 093926.png") |
+| ![Home]"C:\Users\Dell\Pictures\Screenshots\Screenshot 2026-05-14 093846.png"| ![State]<img width="1365" height="672" alt="Screenshot 2026-05-14 094322" src="https://github.com/user-attachments/assets/03ea0c17-cc43-475b-abe1-40de13464014" />
+ | ![Admin]("C:\Users\Dell\Pictures\Screenshots\Screenshot 2026-05-14 093926.png") |
 
 ---
 
