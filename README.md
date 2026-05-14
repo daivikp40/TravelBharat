@@ -1,7 +1,7 @@
 # TravelBharat 🇮🇳
 **A Full-Stack Tourism Management Platform for India**
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge)](YOUR_LIVE_LINK_HERE)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge)](https://travel-bharat-tau.vercel.app/)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-blue?style=for-the-badge)](https://github.com/daivikp40/travelbharat)
 
 **TravelBharat** is a comprehensive, full-stack web application built using the **MERN stack**. It serves as a one-stop destination for travelers to explore the cultural and geographical diversity of India. Users can discover tourist attractions, manage personalized favorite lists, and book hotels or travel packages seamlessly.
@@ -11,12 +11,11 @@
 ## 📺 Project Feedback & Walkthrough
 I have shared my personal experience, development journey, and a technical walkthrough of the platform in the video below. I discuss architectural decisions, challenges faced with state management, and key engineering takeaways.
 
-[**Watch the Experience & Learning Video Here**](YOUR_VIDEO_LINK_HERE)
 
 ---
 
 ## 🚀 Live Demo
-You can access the live application here: [**TravelBharat Live**](YOUR_LIVE_LINK_HERE)
+You can access the live application here: [**TravelBharat Live**](https://travel-bharat-tau.vercel.app/)
 
 ---
 
@@ -39,7 +38,7 @@ You can access the live application here: [**TravelBharat Live**](YOUR_LIVE_LINK
 ## 📸 Screenshots
 | Landing Page | State Details | Admin Dashboard |
 | :---: | :---: | :---: |
-| ![Home](https://via.placeholder.com/300x150?text=Home+Page) | ![State](https://via.placeholder.com/300x150?text=State+Detail) | ![Admin](https://via.placeholder.com/300x150?text=Admin+Panel) |
+| ![Home]("C:\Users\Dell\Pictures\Screenshots\Screenshot 2026-05-14 093846.png") | ![State]("C:\Users\Dell\Pictures\Screenshots\Screenshot 2026-05-14 093905.png") | ![Admin]("C:\Users\Dell\Pictures\Screenshots\Screenshot 2026-05-14 093926.png") |
 
 ---
 
